@@ -2,7 +2,6 @@
 * Save EB_df to folder to be called by R
 
 clear all
-qui do ebci_v3.ado
 use cz, replace
 gen wgt = 1/se25^2
 save cz1, replace
