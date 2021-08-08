@@ -3,7 +3,6 @@ capture log close
 log using ebci_example_log, replace
 
 clear all
-qui do ebci_v3.ado
 use cz, replace
 gen wgt = 1/se25^2
 
