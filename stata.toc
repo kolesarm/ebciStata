@@ -1,0 +1,9 @@
+v 1.0.0
+d Michal Kolesar
+d Princeton University
+d mkolesar@princeton.edu
+d https://github.com/kolesarm/ebciStata
+
+d 'ebreg': Empirical Bayes Regression.
+
+p ebreg
