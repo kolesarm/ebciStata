@@ -12,11 +12,13 @@ Matlab version of this package, and [ebci](https://github.com/kolesarm/ebci) for
 // Remove program if it existed previously
 cap ado uninstall ebciStata
 // Install most up-to-date version
-net install ebciStata, from("https://raw.githubusercontent.com/kolesarm/ebciStata/master/src")
+net install ebciStata, from("https://raw.githubusercontent.com/kolesarm/ebciStata/master/main")
 ```
 
 ## Example
+```stata
 use cz, replace
 gen wgt = 1/se25^2
 ebreg theta25 stayer25 if state == "NY", se(se25) wopt weights(wgt) fs_correction(none) 
 matrix list e(w_opt)
+```
