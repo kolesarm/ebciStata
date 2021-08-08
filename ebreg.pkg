@@ -1,0 +1,11 @@
+v 1.0.0
+d 'ebreg': Empirical Bayes Regression.
+d
+d This Stata package implements robust empirical Bayes confidence intervals from
+d Armstrong, Kolesar, and Plagborg-Moller (2020).
+d 
+d Requires: Stata version 15 
+d
+d
+F ebreg.ado
+F ebreg.sthlp
