@@ -1,7 +1,13 @@
 ## Testing if Stata output checks out with R
-
 require("testthat")
 require("ebci")
+require("RStata")
+
+## Run stata do file
+#chooseStataBin()
+options("RStata.StataVersion"=17)
+options("RStata.StataPath"="\"C:\\Program Files\\Stata17\\StataSE-64\"")
+stata("ebreg_test.do")
 
 # Load the output from Stata
 eb_out1 <- haven::read_dta(file = "eb_out1.dta")
