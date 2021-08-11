@@ -19,8 +19,8 @@
 {synopt :{opt alpha(#)}}Determines confidence level, 1-alpha.{p_end}
 {synopt :{opt kappa(#)}}If non-NULL, use pre-specified value for the kurtosis kappa of theta-X*delta (such as Inf), instead of computing it.{p_end}
 {synopt :{opt wopt}}Compute length-optimal robust EBCIs. These are robust EBCIs centered at length-optimal shrinkage factors.{p_end}
-{synopt :{opt fs_correction()}}Finite-sample correction method used to compute mu_2 and kappa. These corrections ensure that we do not shrink the preliminary estimates Y all the way to zero. 
-If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior, and if "none", 
+{synopt :{opt fs_correction()}}Finite-sample correction method used to compute mu_2 and kappa. These corrections ensure that we do not shrink the preliminary estimates Y all the way to zero.
+If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior, and if "none",
 truncate the estimates at 0 for mu_2 and 1 for kappa. Default is "PMT".{p_end}
 {synopt :{opt reg_options(#)}}Passes options into Stata's default regression.{p_end}
 {synopt :{opt approx}}Use approximation for alpha=0.05 for faster computation.  This overrides the alpha value set.{p_end}
@@ -34,8 +34,8 @@ truncate the estimates at 0 for mu_2 and 1 for kappa. Default is "PMT".{p_end}
 {title:Description}
 
 {pstd}
-This Stata package implements robust empirical Bayes confidence intervals from Armstrong, Kolesár, and Plagborg-Møller (2020). 
- 
+This Stata package implements robust empirical Bayes confidence intervals from Armstrong, Kolesár, and Plagborg-Møller (2020).
+
 
 {marker examples}{...}
 {title:Examples}
@@ -73,7 +73,3 @@ This Stata package implements robust empirical Bayes confidence intervals from A
 {synopt:{cmd:e(w_opt)}}Matrix of Optimal shrinkage factors{p_end}
 {synopt:{cmd:e(w_eb)}}Matrix of EB shrinkage factors, mu_2/(mu_2+sigma^2_i){p_end}
 {p2colreset}{...}
-
-
-
-

@@ -11,11 +11,11 @@ stata("ebreg_test.do")
 
 # Load the output from Stata
 eb_out1 <- haven::read_dta(file = "eb_out1.dta")
-eb_out1 <- eb_out1[is.na(eb_out1$EB_df1)==FALSE ,]
+eb_out1 <- eb_out1[is.na(eb_out1$EB_df1)==FALSE, ]
 eb_out2 <- haven::read_dta(file = "eb_out2.dta")
-eb_out2 <- eb_out2[is.na(eb_out2$EB_df1)==FALSE ,]
+eb_out2 <- eb_out2[is.na(eb_out2$EB_df1)==FALSE, ]
 eb_out3 <- haven::read_dta(file = "eb_out3.dta")
-eb_out3 <- eb_out3[is.na(eb_out3$EB_df1)==FALSE ,]
+eb_out3 <- eb_out3[is.na(eb_out3$EB_df1)==FALSE, ]
 
 ############
 # Load data and test if output are equal
@@ -47,5 +47,3 @@ test_that("Compare ebreg3", {
    diff <- eb_out3 - REBdf
    expect_equal(max(abs(diff)), 0, tolerance=1e-4)
 })
-
-

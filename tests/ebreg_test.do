@@ -26,5 +26,3 @@ matrix EB_df = e(EB_df)
 svmat EB_df
 keep EB_df*
 save eb_out3, replace
-
-

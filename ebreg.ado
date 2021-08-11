@@ -10,7 +10,7 @@ real vector r (real vector t, real vector chi) {
     r = normal(-sqrt(t):-chi) :+ normal(sqrt(t):-chi)
     res = J(1,length(t), 1)
     if (sum(idx) > 0) res[idx] = r[idx]
-    
+
     return(res)
 }
 
@@ -19,11 +19,11 @@ real vector r (real vector t, real vector chi) {
 real vector r1 (real vector t, real scalar chi) {
     real vector idx, res, case1
 
-    idx = selectindex(t :>= 1e-8) 
+    idx = selectindex(t :>= 1e-8)
     case1 = (normalden(sqrt(t):-chi) :- normalden(sqrt(t):+chi)):/(2*sqrt(t))
     res = J(1,length(t),chi:*normalden(chi))
     if (sum(idx) > 0)  res[idx] = case1[idx]
-    
+
     return(res)
 }
 
@@ -31,12 +31,12 @@ real vector r1 (real vector t, real scalar chi) {
 real vector r2 (real vector t, real scalar chi) {
     real vector idx, res, case1
 
-    idx = selectindex(t :>= 2e-6) 
+    idx = selectindex(t :>= 2e-6)
     case1 = (normalden(sqrt(t):+chi):*(chi:*sqrt(t) :+ t :+ 1) :+ ///
         normalden(sqrt(t):-chi):*(chi:*sqrt(t) :- t :- 1)):/(4*t:^(3/2))
     res = J(1,length(t),normalden(chi):*chi:*(chi^2-3)/6)
     if (sum(idx) > 0) res[idx] = case1[idx]
-    
+
     return(res)
 }
 
@@ -44,12 +44,12 @@ real vector r2 (real vector t, real scalar chi) {
 real vector r3 (real vector t, real scalar chi) {
     real vector idx, res, case1
 
-    idx = selectindex(t :>= 2e-4) 
+    idx = selectindex(t :>= 2e-4)
     case1 = (normalden(sqrt(t):-chi):*(t:^2 :- 2*chi:*t:^(3/2) :+ (2+chi^2) :*t :- 3*chi:*sqrt(t) :+ 3) :- ///
         normalden(sqrt(t):+chi):*(t:^2 :+ 2*chi:*t:^(3/2) :+ (2+chi^2) :*t :+ 3*chi:*sqrt(t) :+ 3)):/(8*t:^(5/2))
     res = J(1,length(t),normalden(chi):*(chi^5 - 10:*chi^3 + 15:*chi)/60)
     if (sum(idx) > 0) res[idx] = case1[idx]
-    
+
     return(res)
 }
 
@@ -72,9 +72,9 @@ struct t0ip scalar rt0 (real scalar chi) {
     tol = 1e-12
     if (chi^2 < 3) {
         t0 = ip = 0
-    } 
+    }
     else {
-        if( abs(r2(chi^2 -3/2, chi)) < tol | (chi^2-3) - chi^2 ==0) ip = chi^2 -3/2 
+        if( abs(r2(chi^2 -3/2, chi)) < tol | (chi^2-3) - chi^2 ==0) ip = chi^2 -3/2
         else mroot = mm_root(ip=., &r2(), chi^2 -3, chi^2, tol, 1000, chi)
 
         up = 2*chi^2
@@ -90,7 +90,7 @@ struct t0ip scalar rt0 (real scalar chi) {
         }
         else if (f0(lo,chi)>tol) printf("{red}Warning: Failed to solve for t0 using rt0 at chi = %9.0g. \n", chi)
     }
-    
+
     res.ip = ip
     res.t0 = t0
     return(res)
@@ -117,7 +117,7 @@ real vector delta (real vector x, real scalar x0, real scalar chi) {
     real vector res, idx, case2
     idx = selectindex(abs(x:-x0) :> 1e-4)
     res = r2(x0,chi)/2*J(1,length(x),1)
-    case2 = (r(x,chi) :- r(x0,chi) :- r1(x0,chi):*(x:-x0)) :/ (x:-x0):^2 
+    case2 = (r(x,chi) :- r(x0,chi) :- r1(x0,chi):*(x:-x0)) :/ (x:-x0):^2
     if (sum(idx) > 0) res[idx] = case2[idx]
     return(res)
 }
@@ -144,7 +144,7 @@ struct lamx0 scalar lam (real scalar x0, real scalar chi) {
     real vector xs, rt0_vec, der, val, indDerNeg, iMaxVal, w, diffDerPos, indDerPos
     real vector diffDerPosleq0, iDergeq0, ival, x, rr1max, robj_vec, rmin_vec
     real scalar sumDerNeg, idx, rr1val, i, idxmin, ngrid
-    real scalar lo, up, phi, x2,x3, eps, flo, fup, c, xlen, fx2, fx3, fmin 
+    real scalar lo, up, phi, x2,x3, eps, flo, fup, c, xlen, fx2, fx3, fmin
 
     // Check derivatives at 0, inflection pt, t0 and x0
     // If above ip, then max is below it, and it's at zero if der at zero is negative
@@ -160,16 +160,16 @@ struct lamx0 scalar lam (real scalar x0, real scalar chi) {
     der = delta1(xs,x0,chi)
     val = delta(xs,x0,chi)
     opt0.lam = val[1]; opt0.x0=0
-    
+
     // Expect delta has single maximum, so first increasing, then decr up to tol
     // Need to convert the conditionals to scalars
     indDerNeg = der :<= 0; sumDerNeg = sum(indDerNeg)
     indDerPos = der :>= 0
     maxindex(val,1,iMaxVal,w) // Assign iMaxVal for index of max
-    
+
     diffDerPos = indDerPos[2..length(indDerPos)] - indDerPos[1..(length(indDerPos)-1)]
     diffDerPosleq0 = diffDerPos :<= 0
-        
+
     if (sumDerNeg == length(der) & iMaxVal == 1) {
         return(opt0)
     }
@@ -188,9 +188,9 @@ struct lamx0 scalar lam (real scalar x0, real scalar chi) {
         // Commented out warning message
         printf("{red}Warning: There are multiple optima in the function delta(x, x0, chi). \n")
         return(opt0)
-    } 
+    }
 
-    // Golden search algorithm 
+    // Golden search algorithm
     eps = 1e-8
     lo = min(ival); up = max(ival)
     phi = (sqrt(5) + 1)/2 //golden ratio
@@ -208,14 +208,14 @@ struct lamx0 scalar lam (real scalar x0, real scalar chi) {
             // Step 5: choose points for next iteration
             fx2 = -delta(x2,x0,chi); fx3 = -delta(x3,x0,chi)
             fmin = min((flo,fx2,fx3,fup))
-            if (fmin == flo| fmin == fx2) up =x3 
+            if (fmin == flo| fmin == fx2) up =x3
             else lo = x2
         }
     }
     rr1max = x2
     rr1val = -delta(x2,x0,chi)
-    
-    
+
+
     // Finally check optimum at 0 is not higher
     if (-rr1val > opt0.lam) {
         res.lam = -rr1val; res.x0 = rr1max
@@ -262,7 +262,7 @@ struct alphaxp scalar rho (real scalar m2, real scalar kappa, real scalar chi) {
     // This function is missing the check for the linear program
     real vector r0, rmin_vec, robj_vec, p, xs0, xs0_vec
     real scalar t0, tbar, i, idxmin, rrmin, rrval, ngrid, rrmina, rrvala, rrminb, rrvalb
-    real scalar lo, up, phi, x2,x3, eps, flo, fup, c, xlen, fx2, fx3, fmin 
+    real scalar lo, up, phi, x2,x3, eps, flo, fup, c, xlen, fx2, fx3, fmin
     struct t0ip scalar rt0_out
     struct alphaxp scalar res
     struct lamx0 scalar lam_out, lam_min
@@ -288,9 +288,9 @@ struct alphaxp scalar rho (real scalar m2, real scalar kappa, real scalar chi) {
     }
     else {
         // First determine where delta(x, 0) is maximized
-        lam_out = lam(0,chi) 
+        lam_out = lam(0,chi)
         tbar = lam_out.x0
-                
+
         // Optimization routine
         //rb
         if (tbar >0) {
@@ -312,7 +312,7 @@ struct alphaxp scalar rho (real scalar m2, real scalar kappa, real scalar chi) {
                     // Step 5: choose points for next iteration
                     fx2 = obj(x2,chi,m2,tbar,kappa); fx3 = obj(x3,chi,m2,tbar,kappa)
                     fmin = min((flo,fx2,fx3,fup))
-                    if (fmin == flo| fmin == fx2) up =x3 
+                    if (fmin == flo| fmin == fx2) up =x3
                     else lo = x2
                 }
             }
@@ -344,13 +344,13 @@ struct alphaxp scalar rho (real scalar m2, real scalar kappa, real scalar chi) {
                 // Step 5: choose points for next iteration
                 fx2 = obj(x2,chi,m2,tbar,kappa); fx3 = obj(x3,chi,m2,tbar,kappa)
                 fmin = min((flo,fx2,fx3,fup))
-                if (fmin == flo| fmin == fx2) up =x3 
+                if (fmin == flo| fmin == fx2) up =x3
                 else lo = x2
             }
         }
         rrmina = x2
         rrvala = obj(x2,chi,m2,tbar,kappa)
-        
+
         // Comparing ra and rb
         if (rrvalb < rrvala) {
             rrmin = rrminb
@@ -358,9 +358,9 @@ struct alphaxp scalar rho (real scalar m2, real scalar kappa, real scalar chi) {
         }
         else {
             rrmin = rrmina
-            rrval = rrvala    
+            rrval = rrvala
         }
-        
+
         // Post optimization calculations
         lam_min = lam(rrmin,chi)
         xs0_vec = (rrmin, lam_min.x0)
@@ -369,7 +369,7 @@ struct alphaxp scalar rho (real scalar m2, real scalar kappa, real scalar chi) {
 
         res.alpha=rrval; res.x=xs0; res.p=(p, 1-p)
         return(res)
-        
+
     }
 }
 
@@ -435,8 +435,8 @@ struct cvaxp scalar cva_fn (real scalar m2, real scalar kappa, real scalar alpha
         rho_out = rho(m2, kappa, cv)
         res.cv = cv; res.alpha = rho_out.alpha; res.x = rho_out.x; res.p=rho_out.p
         return(res)
-        
-        
+
+
     }
 }
 
@@ -476,7 +476,7 @@ real scalar cvapprox (real scalar m2, real scalar kappa) {
             +0.679*m2^0.5*kappa^0.5 + 0.417*log(m2)*log(kappa) - 3.729*(log(kappa))^(-0.5)
     }
     else if (m2 > 4 & m2 <= 10 & kappa >=1 & kappa <=3) {
-        res = 15.225 + 1.287*m2^0.5 - 1.339*kappa^0.1 - 12.765*m2^(0.1)*kappa^(0.1) /// 
+        res = 15.225 + 1.287*m2^0.5 - 1.339*kappa^0.1 - 12.765*m2^(0.1)*kappa^(0.1) ///
             + 0.9385*m2^0.5*kappa^0.5 + 0.9125*log(m2)*log(kappa)
     }
     else if (m2 > 4 & m2 <= 10 & kappa >3 & kappa <=10) {
@@ -504,7 +504,7 @@ real scalar cva (real scalar m2, real scalar kappa, real scalar alpha, real scal
     else {
         res = cva_fn(m2, kappa,alpha)
         return(res.cv)
-    } 
+    }
 }
 
 real scalar ci_length (real scalar w, real scalar kappa, real scalar alpha, real scalar S, real scalar approx) {
@@ -516,7 +516,7 @@ real scalar ci_length (real scalar w, real scalar kappa, real scalar alpha, real
 
 real vector Fw_opt (real scalar S, real scalar kappa, real scalar alpha, real scalar approx) {
         real scalar maxbias, minbias, rmin, rval, m2, idxmin, I
-        real scalar lo, up, phi, x2,x3, eps, flo, fup, c, xlen, fx2, fx3, fmin 
+        real scalar lo, up, phi, x2,x3, eps, flo, fup, c, xlen, fx2, fx3, fmin
         real vector robj_vec, rmin_vec, res
 
         maxbias = 100^2
@@ -540,13 +540,13 @@ real vector Fw_opt (real scalar S, real scalar kappa, real scalar alpha, real sc
                 // Step 5: choose points for next iteration
                 fx2 = ci_length(x2,kappa,alpha,S, approx); fx3 = ci_length(x3,kappa,alpha,S, approx)
                 fmin = min((flo,fx2,fx3,fup))
-                if (fmin == flo| fmin == fx2) up =x3 
+                if (fmin == flo| fmin == fx2) up =x3
                 else lo = x2
             }
         }
         rmin = x2
         rval = ci_length(rmin,kappa,alpha,S, approx)
-        
+
         m2 = (1/rmin - 1)^2*S
         res = J(1,3,.)
         res[1] = rmin // w
@@ -569,7 +569,7 @@ real vector Fw_eb (real scalar S, real scalar kappa, real scalar alpha, real sca
 
 // Weighted sample variance and mean of truncated normal
 real scalar weighted_mean (real colvector A, real colvector B) {
-    // Take in column vectors 
+    // Take in column vectors
     return(sum(A:*B)/sum(B))
 }
 
@@ -585,7 +585,7 @@ real scalar ExtractAlpha (struct alphaxp scalar rho_out) {
     return(rho_out.alpha)
 }
 
-end 
+end
 
 // EBCI regression program
 capture program drop ebreg
@@ -594,11 +594,11 @@ capture program drop ebreg
 cap which moremata.hlp
 if _rc ssc install moremata
 
-program ebreg, eclass  
+program ebreg, eclass
 // Omit optimal shrinkage for length(se) > 30
 // using approx option overwrites alpha option
 syntax varlist(min=1 numeric) [if] [in], se(varname) [weights(varname) alpha(real 0.05) kappa(real 1e12)  ///
-        wopt approx fs_correction(string) reg_options(string)] 
+        wopt approx fs_correction(string) reg_options(string)]
 
 preserve
 marksample touse
@@ -631,12 +631,12 @@ mata{
     Yt = Y
     set = se
     //delta = st_matrix("e(b)")
-    
+
     w2 = (Yt :- mu1):^2 :- set:^2
     w4 = (Yt :- mu1):^4 :- 6:*set:^2:*(Yt:-mu1):^2 :+ 3:*set:^4
-    
-    // tilde mu2 and tilde mu4 
-    tmu = (weighted_mean(w2,wgt), weighted_mean(w4,wgt))   
+
+    // tilde mu2 and tilde mu4
+    tmu = (weighted_mean(w2,wgt), weighted_mean(w4,wgt))
     pmt_trim = (2:*mean(wgt:^2:*set:^4) :/ (sum(wgt):*mean(wgt:*set:^2)),
         32:*mean(wgt:^2:*set:^8) :/ (sum(wgt):*mean(wgt:*set:^4)))
 
@@ -698,8 +698,8 @@ mata{
         ebm = ebmat[,3]
         th_eb = mu1 :+ ebw:*(Y :-mu1)
         w_eb = ebw
-        
-        
+
+
         if ("`wopt'" == "wopt") {
             opmat = J(n,3,.)
             for (i=1; i <= n; i++) {
@@ -727,7 +727,7 @@ mata{
             ncov_mat[i] = ExtractAlpha(rho_out)
         }
         ncov_pa = ncov_mat
-                
+
         len_eb = ebl:*se
         len_op = opl:*se
         len_pa = sqrt(ebw):*za:*se
@@ -735,7 +735,7 @@ mata{
         th_us = Y
         weights = wgt
         residuals = Y -mu1
-        
+
         EB_df = (w_eb , w_opt , ncov_pa , len_eb , len_op , len_pa , len_us , th_us , th_eb , th_op, se, weights, residuals)
 
         st_numscalar("tmu1",tmu[1])
@@ -743,7 +743,7 @@ mata{
         st_numscalar("kappa",kappa)
         //st_matrix("delta",delta)
         st_matrix("EB_df",EB_df)
-    
+
     }
 
     // export individual columns of EB output
@@ -773,7 +773,7 @@ if (mu2 == 0) {
     ereturn matrix EB_df = EB_df
     ereturn scalar mu2 = 0
 }
-else { 
+else {
 //getmata (ebw ebl ebm) = ebmat, replace
 matrix colnames EB_df ="w_eb" "w_opt" "ncov_pa" "len_eb" "len_op" "len_pa" "len_us" "th_us" "th_eb" "th_op" "se" "weights" "residuals"
 di "mu2: estimate = " mu2 ", uncorrected estimate = " tmu1
