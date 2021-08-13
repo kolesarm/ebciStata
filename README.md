@@ -17,8 +17,12 @@ net install ebciStata, from("https://raw.githubusercontent.com/kolesarm/ebciStat
 
 ## Example
 ```stata
-use cz, replace
+use data/cz, replace
+// Use precision weights
 gen wgt = 1/se25^2
-ebreg theta25 stayer25 if state == "NY", se(se25) wopt weights(wgt) fs_correction(none)
-matrix list e(w_opt)
+// Replicate emirical example in Armstrong, Kolesár, and Plagborg-Møller (2020)
+ebreg theta25 stayer25, se(se25) wopt weights(wgt)
+matrix U = J(rowsof(e(w_opt)),1,1)
+matrix means = (U'*e(w_eb), U'*e(w_opt), U'*e(ncov_pa))/e(N)
+matrix list means
 ```
