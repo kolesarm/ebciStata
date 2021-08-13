@@ -23,7 +23,8 @@
 If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior, and if "none",
 truncate the estimates at 0 for mu_2 and 1 for kappa. Default is "PMT".{p_end}
 {synopt :{opt reg_options(#)}}Passes options into Stata's default regression.{p_end}
-{synopt :{opt approx}}Use approximation for alpha=0.05 for faster computation.  This overrides the alpha value set.{p_end}
+{synopt :{opt approx}}Use a polynomial approximation to the critical value (for faster computation), rather than computing cva() exactly. 
+Assumes alpha=0.05. User-specified option for "alpha" is ignored. {p_end}
 {synoptline}
 {p2colreset}{...}
 
