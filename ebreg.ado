@@ -598,7 +598,7 @@ program ebreg, eclass
 // Omit optimal shrinkage for length(se) > 30
 // using approx option overwrites alpha option
 syntax varlist(min=1 numeric) [if] [in], se(varname) [weights(varname) alpha(real 0.05) kappa(real 1e12)  ///
-        wopt approx fs_correction(string) reg_options(string)]
+        wopt approx fs_correction(string) reg_options(string) genvar(string)]
 
 preserve
 marksample touse
@@ -798,5 +798,10 @@ ereturn matrix th_op = th_op
 ereturn matrix se = se
 ereturn matrix weights = weights
 ereturn matrix residuals = residuals
+
+foreach var in `genvar' {
+    matrix ebci_`var' = e(`var')
+    svmat ebci_`var'
+}
 
 end
