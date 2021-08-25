@@ -619,6 +619,7 @@ putmata se = `se', replace
 
 // Set default method
 if ("`fs_correction'" == "") local fs_correction "PMT"
+if ("`wopt'" == "wopt") di "Computing, this may take a few minutes"
 
 mata{
 
