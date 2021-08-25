@@ -70,7 +70,14 @@ This Stata package implements robust empirical Bayes confidence intervals from A
 {synopt:{cmd:e(len_us)}}Matrix of Half-length of unshrunk CIs{p_end}
 {synopt:{cmd:e(len_pa)}}Matrix of Half-length of parametric EBCIs{p_end}
 {synopt:{cmd:e(len_op)}}Matrix of Half-length of robust EBCIs based on length-optimal shrinkage{p_end}
-{synopt:{cmd:e(len_eb)}}Matrix of Half-length of robust EBCIs based on EB shrinkage{p_end}
+{synopt:{cmd:e(cil_eb)}}Matrix of CI lower bound of robust EBCIs based on EB shrinkage{p_end}
+{synopt:{cmd:e(ciu_eb)}}Matrix of CI upper bound of robust EBCIs based on EB shrinkage{p_end}
+{synopt:{cmd:e(cil_op)}}Matrix of CI lower bound of robust EBCIs based on length-optimal shrinkage.{p_end}
+{synopt:{cmd:e(ciu_op)}}Matrix of CI upper bound of robust EBCIs based on length-optimal shrinkage.{p_end}
+{synopt:{cmd:e(cil_pa)}}Matrix of CI lower bound of robust EBCIs based on parametric EBCIs.{p_end}
+{synopt:{cmd:e(ciu_pa)}}Matrix of CI upper bound of robust EBCIs based on parametric EBCIs.{p_end}
+{synopt:{cmd:e(cil_us)}}Matrix of unshrunk CI lower bound.{p_end}
+{synopt:{cmd:e(ciu_us)}}Matrix of unshrunk CI upper bound.{p_end}
 {synopt:{cmd:e(ncov_pa)}}Matrix of Maximal non-coverage of parametric EBCIs{p_end}
 {synopt:{cmd:e(w_opt)}}Matrix of Optimal shrinkage factors{p_end}
 {synopt:{cmd:e(w_eb)}}Matrix of EB shrinkage factors, mu_2/(mu_2+sigma^2_i){p_end}
