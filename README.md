@@ -10,14 +10,14 @@ Matlab version of this package, and [ebci](https://github.com/kolesarm/ebci) for
 `ebciStata` is not currently available from SSC. To install directly from this repository, you can copy and run the following lines in Stata:
 ```stata
 // Remove program if it existed previously
-cap ado uninstall ebciStata
+cap ado uninstall ebreg
 // Install most up-to-date version
 net install ebreg, from("https://raw.githubusercontent.com/kolesarm/ebciStata/master")
 ```
 
 ## Example
 ```stata
-use data/cz, replace
+use data/cz, clear
 // Use precision weights
 gen wgt = 1/se25^2
 // Replicate emirical example in Armstrong, Kolesár, and Plagborg-Møller (2020)
