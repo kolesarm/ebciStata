@@ -600,6 +600,8 @@ program ebreg, eclass
 syntax varlist(min=1 numeric) [if] [in], se(varname) [weights(varname) alpha(real 0.05) kappa(real 1e12)  ///
         wopt approx fs_correction(string) reg_options(string) genvar(string)] 
 
+gen ebid = _n
+
 preserve
 marksample touse
 qui keep if `touse'
@@ -790,6 +792,13 @@ mata{
     st_matrix("cil_us",cil_us)
     st_matrix("ciu_us",ciu_us)
 }
+
+local Nobs = _N
+matrix idmat = J(`Nobs',1,.)
+forvalues v = 1/ `Nobs' {
+	matrix idmat[`v',1] = ebid[`v']
+}
+
 restore
 
 // Variable names
@@ -824,16 +833,14 @@ foreach var in `ebvar' {
 
 if ("`genvar'" != "") {
     foreach var in `ebvar' {
-        matrix `genvar'_`var' = e(`var')
-        svmat `genvar'_`var'
+        qui gen `genvar'_`var' =.
+        matrix mat_`var' = e(`var')
+        forvalues v =1/`Nobs' {
+            qui replace `genvar'_`var' = mat_`var'[`v',1] if _n == idmat[`v',1] 
+        }
     }
 }
 
-/*
-foreach var in `genvar' {
-    matrix ebci_`var' = e(`var')
-    svmat ebci_`var'
-}
-*/
+drop ebid
 
 end
