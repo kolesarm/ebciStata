@@ -41,6 +41,6 @@ ebreg theta25 stayer25, se(se25) weights(wgt) alpha(0.1) genvar(ebci)
 /* Shrinkage estimates, neighborhood effects, and confidence intervals
    are stored in variables with prefix specified in the genvar option.
    Summarize them.
-/*
+*/
 summarize ebci_*
 ```
