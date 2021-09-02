@@ -8,8 +8,8 @@ this package, and [ebci](https://github.com/kolesarm/ebci) for an R version.
 
 This software package is based upon work supported by the National Science
 Foundation under grant numbers SES-2049765 (Armstrong), SES-22049356 (Kolesár),
-and (SES-1851665), and by work supported by the Alfred P. Sloan Research
-Fellowship (Kolesár).
+and SES-1851665 (Plagborg-Møller), and by work supported by the Alfred P. Sloan
+Research Fellowship (Kolesár).
 
 ## Installation
 
