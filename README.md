@@ -43,4 +43,7 @@ ebreg theta25 stayer25, se(se25) weights(wgt) alpha(0.1) genvar(ebci)
    Summarize them.
 */
 summarize ebci_*
+
+// List EB point estimate and robust EBCI for NY commuting zones
+list czname ebci_th_eb ebci_cil_eb ebci_ciu_eb if state=="NY"
 ```
