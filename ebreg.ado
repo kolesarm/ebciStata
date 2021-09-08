@@ -600,7 +600,8 @@ program ebreg, eclass
 syntax varlist(min=1 numeric) [if] [in], se(varname) [weights(varname) alpha(real 0.05) kappa(real 1e12)  ///
         wopt approx fs_correction(string) reg_options(string) genvar(string)] 
 
-gen ebid = _n
+tempvar ebid 
+gen `ebid' = _n
 
 preserve
 marksample touse
@@ -796,7 +797,7 @@ mata{
 local Nobs = _N
 matrix idmat = J(`Nobs',1,.)
 forvalues v = 1/ `Nobs' {
-	matrix idmat[`v',1] = ebid[`v']
+	matrix idmat[`v',1] = `ebid'[`v']
 }
 
 restore
@@ -841,6 +842,5 @@ if ("`genvar'" != "") {
     }
 }
 
-drop ebid
 
 end
