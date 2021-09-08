@@ -68,13 +68,12 @@ di "Average worst-case non-coverage probability is " `r(mean)'
 * The parametric EBCIs are shorter but less robust: They could potentially
 * have Empirical Bayes non-coverage probabilities well above alpha=10%
 
-// Replicate empirical example in Armstrong, Kolesár, and Plagborg-Møller (2020)
-/*
-ebreg theta25 stayer25, se(se25) wopt weights(wgt) alpha(0.1)
-matrix U = J(rowsof(e(w_opt)),1,1)
-matrix means = U'*(e(w_eb), e(w_opt), e(ncov_pa), e(len_eb), e(len_op), e(len_pa), e(len_us))/e(N)
-matrix list means
-*/
+********************************************
+** Replicate empirical example in Armstrong, Kolesár, and Plagborg-Møller (2020)
+********************************************
+
+ebreg theta25 stayer25, se(se25) wopt weights(wgt) alpha(0.1) genvar(akp)
+sum akp_*
 
 
 log close
