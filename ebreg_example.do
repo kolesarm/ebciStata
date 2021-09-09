@@ -36,17 +36,18 @@ ebreg theta25 $xvar, se(se25) wopt weights(wgt) alpha($alpha) genvar(ebci)
 * Replicate empirical example in Armstrong, Kolesár, and Plagborg-Møller (2020)
 sum ebci_*
 
-* Display various objects obtained
-di "lower and upper endpoints of EBCIs for NY"
-list ebci_cil_eb ebci_ciu_eb if state == "NY"
+* Generate normlng, the half-length of EBCIs, divided by standard errors
+gen ebci_normlngeb = ebci_len_eb/se25
 
-di "Shrinkage factors are w_eb and half length len_eb"
-list ebci_w_eb ebci_len_eb if state == "NY"
+* Display various objects obtained
+di "Robust EBCIs for NY"
+list ebci_th_eb ebci_cil_eb ebci_ciu_eb ebci_w_eb ebci_normlngeb if state == "NY"
+
 
 di "Average length of unshrunk CIs relative to robust EBCIs"
-qui sum ebci_len_us if state == "NY"
+qui sum ebci_len_us 
 local len_us `r(mean)'
-qui sum ebci_len_eb if state == "NY"
+qui sum ebci_len_eb 
 di "Unshrunk CI's are " `len_us'/`r(mean)' " times of robust EBCIs"
 
 
@@ -57,14 +58,20 @@ di "Unshrunk CI's are " `len_us'/`r(mean)' " times of robust EBCIs"
 * Parametric EBCI results are stored as pa prefix
 * Note that the parametric EBCIs are centered at the same shrinkage estimates as the robust EBCIs
 
+* Generate normlng, the half-length of parametric EBCIs, divided by standard errors
+gen ebci_normlngpa = ebci_len_pa/se25
+
+di "Parametric EBCIs for NY"
+list ebci_th_eb ebci_cil_pa ebci_ciu_pa ebci_w_eb ebci_normlngpa ebci_ncov_pa if state == "NY"
+
 di "Average length of parametric EBCIs relative to robust EBCIs"
-qui sum ebci_len_pa if state == "NY"
+qui sum ebci_len_pa 
 local len_pa `r(mean)'
-qui sum ebci_len_eb if state == "NY"
+qui sum ebci_len_eb 
 di "Parametric CI's are " `len_pa'/`r(mean)' " times of robust EBCIs"
 
 di "Average worst-case non-coverage probability of parametric EBCIs"
-qui sum ebci_ncov_pa if state == "NY"
+qui sum ebci_ncov_pa 
 di "Average worst-case non-coverage probability is " `r(mean)'
 
 * The parametric EBCIs are shorter but less robust: They could potentially
