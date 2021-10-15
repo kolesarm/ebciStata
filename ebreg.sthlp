@@ -5,6 +5,7 @@
 {viewerjumpto "Description" "ebreg##description"}{...}
 {viewerjumpto "Examples" "ebreg##examples"}{...}
 {viewerjumpto "Stored Results" "ebreg##results"}{...}
+{viewerjumpto "Authors" "ebreg##authors"}{...}
 {viewerjumpto "References" "ebreg##references"}{...}
 {pstd}
 {hi:ebreg} {hline 2} Robust Empirical Bayes Confidence Intervals
@@ -86,6 +87,21 @@ This Stata package implements robust empirical Bayes confidence intervals from A
 {synopt:{cmd:e(w_eb)}}Vector of empirical Bayes shrinkage factors, {it:mu_2/(mu_2+sigma^2_i)}.{p_end}
 {synopt:{cmd:e(EB_df)}}Matrix of all ebreg output.{p_end}
 {p2colreset}{...}
+
+{marker authors}{...}
+{title:Authors}
+
+{pstd}Timothy Armstrong{p_end}
+{pstd}University of Southern California{p_end}
+
+{pstd}Michal Kolesár{p_end}
+{pstd}Princeton University{p_end}
+
+{pstd}Mikkel Plagborg-Møller{p_end}
+{pstd}Princeton University{p_end}
+
+{pstd}Luther Yap{p_end}
+{pstd}Princeton University{p_end}
 
 {marker references}{...}
 {title:References}
