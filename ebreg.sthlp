@@ -1,12 +1,16 @@
 {smcl}
-{* *! version 1.0.0 Oct 2021}{...}
+{* *! version 1.0.0 15oct2021}{...}
 {title:Title}
-
+{viewerjumpto "Syntax" "ebreg##syntax"}{...}
+{viewerjumpto "Description" "ebreg##description"}{...}
+{viewerjumpto "Examples" "ebreg##examples"}{...}
+{viewerjumpto "Stored Results" "ebreg##results"}{...}
+{viewerjumpto "References" "ebreg##references"}{...}
 {pstd}
 {hi:ebreg} {hline 2} Robust Empirical Bayes Confidence Intervals
 
 
-{title:Syntax}
+{marker syntax}{title:Syntax}
 
 {p 8 16 2}
 {cmd:ebreg} {it:depvar [indepvars] [if] [in]} {cmd:,} {cmd:se(se_var)} {it:[options]}
@@ -15,19 +19,22 @@
 {synoptset 17}{...}
 {synopthdr}
 {synoptline}
-{synopt :{opt weights(wgt_var)}}An optional numeric vector of weights to be used in the fitting process in computing delta, mu_2 and kappa.{p_end}
-{synopt :{opt alpha(#)}}Determines confidence level, 1-alpha. Default is alpha=0.05.{p_end}
-{synopt :{opt kappa(#)}}If specified, use this value for the kurtosis kappa of theta-X*delta (such as setting it to infinity), instead of computing it.{p_end}
-{synopt :{opt wopt}}Compute length-optimal robust robust empirical Bayes confidence intervals (EBCIs). These are robust EBCIs centered at estimates with the shrinkage factor chosen to minimize the length of the resulting EBCI.{p_end}
-{synopt :{opt fs_correction()}}Finite-sample correction method used to compute mu_2 and kappa. These corrections ensure that we do not shrink the preliminary estimates Y all the way to zero. If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior, and if "none", truncate the estimates at 0 for mu_2 and 1 for kappa. Default is "PMT".{p_end}
+{synopt :{opt weights(wgt_var)}}An optional numeric vector of weights to be used in the fitting process in computing {it:delta}, {it:mu_2} and {it:kappa}.{p_end}
+{synopt :{opt alpha(#)}}Determines confidence level, {cmd:1-alpha}. Default is {cmd:alpha=0.05}.{p_end}
+{synopt :{opt kappa(#)}}If specified, use this value for the kurtosis {it:kappa} of {it:theta-X*delta} (such as setting it to infinity), instead of computing it.{p_end}
+{synopt :{opt wopt}}Compute length-optimal robust robust empirical Bayes confidence intervals (EBCIs).
+These are robust EBCIs centered at estimates with the shrinkage factor chosen to minimize the length of the resulting EBCI.{p_end}
+{synopt :{opt fs_correction()}}Finite-sample correction method used to compute mu_2 and kappa.
+These corrections ensure that we do not shrink the preliminary estimates (as specified by {cmd:depvar}) all the way to the regression line.
+If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior,
+and if "none", truncate the estimate of mu_2 at 0 and the estimate of kappa at 1. Default is "PMT".{p_end}
 {synopt :{opt reg_options(#)}}Passes options into Stata's default regression.{p_end}
-{synopt :{opt approx}}Use a polynomial approximation to the critical value (for faster computation), rather than computing cva() exactly. Assumes alpha=0.05. User-specified option for "alpha" is ignored. {p_end}
-{synopt :{opt genvar(ebci)}}Store {cmd: ebreg} output as variables using prefix ebci_*. Output stored are w_eb w_opt ncov_pa len_eb len_op len_pa len_us cil_eb ciu_eb
-    cil_op ciu_op cil_pa ciu_pa cil_us ciu_us th_us th_eb th_op described below.{p_end}
+{synopt :{opt approx}}Use a polynomial approximation to the critical value (for faster computation), rather than computing it exactly. Assumes {cmd:alpha=0.05}. User-specified option for {cmd:alpha} is ignored. {p_end}
+{synopt :{opt genvar(ebci)}}Store {cmd: ebreg} output as variables using prefix ebci_*. The stored output vectors are described below.{p_end}
 {synoptline}
 {p2colreset}{...}
 
-{it:se()} must be specified. They are standard errors {it:sigma} associated with the preliminary estimates {it:Y}.
+{it:se()} must be specified. They are standard errors {it:sigma} associated with the preliminary estimates as specified by {cmd:depvar}.
 
 
 {marker description}{...}
@@ -54,10 +61,10 @@ This Stata package implements robust empirical Bayes confidence intervals from A
 
 {synoptset 25 tabbed}{...}
 {p2col 5 15 19 2: Scalars}{p_end}
-{synopt:{cmd:e(mu2)}}Estimated second moment of theta-X*delta, mu_2. Estimate after the finite-sample correction as specified by fs_correction.{p_end}
-{synopt:{cmd:e(mu2_uncorrected)}}Estimated second moment of theta-X*delta, mu_2 without fs_correction.{p_end}
-{synopt:{cmd:e(kappa)}}Estimated kurtosis kappa of theta-X*delta with fs_correction.{p_end}
-{synopt:{cmd:e(kappa_uncorrected)}}Estimated kurtosis kappa of theta-X*delta without fs_correction.{p_end}
+{synopt:{cmd:e(mu2)}}Estimated second moment of {it:theta-X*delta}, {it:mu_2}, computed using the finite-sample correction as specified by {cmd:fs_correction}.{p_end}
+{synopt:{cmd:e(mu2_uncorrected)}}Estimated second moment of {it:theta-X*delta}, {it:mu_2} without a finite-sample correction.{p_end}
+{synopt:{cmd:e(kappa)}}Estimated kurtosis {it:kappa} of {it:theta-X*delta}, computed using the finite-sample correction as specified by {cmd:fs_correction}.{p_end}
+{synopt:{cmd:e(kappa_uncorrected)}}Estimated kurtosis {it:kappa} of {it:theta-X*delta}  without a finite-sample correction.{p_end}
 {p2col 5 15 19 2: Matrices}{p_end}
 {synopt:{cmd:e(th_op)}}Vector of estimates based on length-optimal shrinkage.{p_end}
 {synopt:{cmd:e(th_eb)}}Vector of empirical Bayes estimates.{p_end}
@@ -76,6 +83,15 @@ This Stata package implements robust empirical Bayes confidence intervals from A
 {synopt:{cmd:e(len_eb)}}Vector of half-lengths of robust EBCIs.{p_end}
 {synopt:{cmd:e(ncov_pa)}}Vector of maximal non-coverages of parametric EBCIs.{p_end}
 {synopt:{cmd:e(w_opt)}}Vector of length-optimal shrinkage factors.{p_end}
-{synopt:{cmd:e(w_eb)}}Vector of empirical Bayes shrinkage factors, mu_2/(mu_2+sigma^2_i).{p_end}
+{synopt:{cmd:e(w_eb)}}Vector of empirical Bayes shrinkage factors, {it:mu_2/(mu_2+sigma^2_i)}.{p_end}
 {synopt:{cmd:e(EB_df)}}Matrix of all ebreg output.{p_end}
 {p2colreset}{...}
+
+{marker references}{...}
+{title:References}
+
+{phang}
+Armstrong, Timothy B., Kolesár, Michal, and Plagborg-Møller, Mikkel (2021): Robust Empirical Bayes Confidence Intervals, {browse "https://arxiv.org/abs/2004.03448"}
+
+{phang}You can find a MATLAB version of this command at {browse "https://github.com/mikkelpm/ebci_matlab"}, and an R version at {browse "https://github.com/kolesarm/ebci"}
+{p_end}
