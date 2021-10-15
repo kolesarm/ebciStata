@@ -34,7 +34,7 @@
 {title:Description}
 
 {pstd}
-This Stata package implements robust empirical Bayes confidence intervals from Armstrong, Kolesár, and Plagborg-Møller (2021).
+This Stata package implements robust empirical Bayes confidence intervals from Armstrong, Kolesár, and Plagborg-Møller (2021) by shrinking preliminary estimates toward a regression line.
 
 
 {marker examples}{...}
@@ -53,30 +53,29 @@ This Stata package implements robust empirical Bayes confidence intervals from A
 {cmd:ebreg} stores the following in {cmd:e()}:
 
 {synoptset 25 tabbed}{...}
+{p2col 5 15 19 2: Scalars}{p_end}
+{synopt:{cmd:e(mu2)}}Estimated second moment of theta-X*delta, mu_2. Estimate after the finite-sample correction as specified by fs_correction.{p_end}
+{synopt:{cmd:e(mu2_uncorrected)}}Estimated second moment of theta-X*delta, mu_2 without fs_correction.{p_end}
+{synopt:{cmd:e(kappa)}}Estimated kurtosis kappa of theta-X*delta with fs_correction.{p_end}
+{synopt:{cmd:e(kappa_uncorrected)}}Estimated kurtosis kappa of theta-X*delta without fs_correction.{p_end}
 {p2col 5 15 19 2: Matrices}{p_end}
-{synopt:{cmd:e(mu2)}}Scalar of estimated second moment of theta-X*delta, mu_2^(1/2). Estimate after the finite-sample correction as specified by fs_correction.{p_end}
-{synopt:{cmd:e(mu2_uncorrected)}}Scalar of estimated second moment of theta-X*delta, mu_2^(1/2) without fs_correction.{p_end}
-{synopt:{cmd:e(kappa)}}Scalar of Estimated kurtosis kappa of theta-X*delta with fs_correction.{p_end}
-{synopt:{cmd:e(kappa_uncorrected)}}Scalar of Estimated kurtosis kappa of theta-X*delta without fs_correction.{p_end}
-{synopt:{cmd:e(EB_df)}}Matrix of ebreg output{p_end}
-{synopt:{cmd:e(residuals)}}Matrix of regression residuals{p_end}
-{synopt:{cmd:e(weights)}}Matrix of weights used{p_end}
-{synopt:{cmd:e(se)}}Matrix of Standard error sigma, as supplied by the argument se.{p_end}
-{synopt:{cmd:e(th_op)}}Matrix of Estimate based on length-optimal shrinkage.{p_end}
-{synopt:{cmd:e(th_eb)}}Matrix of EB estimate.{p_end}
-{synopt:{cmd:e(th_us)}}Matrix of Unshrunk estimate Y{p_end}
-{synopt:{cmd:e(len_us)}}Matrix of Half-length of unshrunk CIs{p_end}
-{synopt:{cmd:e(len_pa)}}Matrix of Half-length of parametric EBCIs{p_end}
-{synopt:{cmd:e(len_op)}}Matrix of Half-length of robust EBCIs based on length-optimal shrinkage{p_end}
-{synopt:{cmd:e(cil_eb)}}Matrix of CI lower bound of robust EBCIs based on EB shrinkage{p_end}
-{synopt:{cmd:e(ciu_eb)}}Matrix of CI upper bound of robust EBCIs based on EB shrinkage{p_end}
-{synopt:{cmd:e(cil_op)}}Matrix of CI lower bound of robust EBCIs based on length-optimal shrinkage.{p_end}
-{synopt:{cmd:e(ciu_op)}}Matrix of CI upper bound of robust EBCIs based on length-optimal shrinkage.{p_end}
-{synopt:{cmd:e(cil_pa)}}Matrix of CI lower bound of robust EBCIs based on parametric EBCIs.{p_end}
-{synopt:{cmd:e(ciu_pa)}}Matrix of CI upper bound of robust EBCIs based on parametric EBCIs.{p_end}
-{synopt:{cmd:e(cil_us)}}Matrix of unshrunk CI lower bound.{p_end}
-{synopt:{cmd:e(ciu_us)}}Matrix of unshrunk CI upper bound.{p_end}
-{synopt:{cmd:e(ncov_pa)}}Matrix of Maximal non-coverage of parametric EBCIs{p_end}
-{synopt:{cmd:e(w_opt)}}Matrix of Optimal shrinkage factors{p_end}
-{synopt:{cmd:e(w_eb)}}Matrix of EB shrinkage factors, mu_2/(mu_2+sigma^2_i){p_end}
+{synopt:{cmd:e(th_op)}}Vector of estimates based on length-optimal shrinkage.{p_end}
+{synopt:{cmd:e(th_eb)}}Vector of empirical Bayes estimates.{p_end}
+{synopt:{cmd:e(th_us)}}Vector of unshrunk estimates (as specified by depvar).{p_end}
+{synopt:{cmd:e(ciu_us)}}Vector of upper endpoints of unshrunk CI.{p_end}
+{synopt:{cmd:e(cil_us)}}Vector of lower endpoints of unshrunk CI.{p_end}
+{synopt:{cmd:e(ciu_pa)}}Vector of upper endpoints of parametric EBCIs.{p_end}
+{synopt:{cmd:e(cil_pa)}}Vector of lower endpoints of parametric EBCIs.{p_end}
+{synopt:{cmd:e(ciu_op)}}Vector of upper endpoints of robust EBCIs based on length-optimal shrinkage.{p_end}
+{synopt:{cmd:e(cil_op)}}Vector of lower endpoints of robust EBCIs based on length-optimal shrinkage.{p_end}
+{synopt:{cmd:e(ciu_eb)}}Vector of upper endpoints of robust EBCIs.{p_end}
+{synopt:{cmd:e(cil_eb)}}Vector of lower endpoints of robust EBCIs.{p_end}
+{synopt:{cmd:e(len_us)}}Vector of half-lengths of unshrunk CIs.{p_end}
+{synopt:{cmd:e(len_pa)}}Vector of half-lengths of parametric EBCIs.{p_end}
+{synopt:{cmd:e(len_op)}}Vector of half-lengths of robust EBCIs based on length-optimal shrinkage.{p_end}
+{synopt:{cmd:e(len_eb)}}Vector of half-lengths of robust EBCIs.{p_end}
+{synopt:{cmd:e(ncov_pa)}}Vector of maximal non-coverages of parametric EBCIs.{p_end}
+{synopt:{cmd:e(w_opt)}}Vector of length-optimal shrinkage factors.{p_end}
+{synopt:{cmd:e(w_eb)}}Vector of empirical Bayes shrinkage factors, mu_2/(mu_2+sigma^2_i).{p_end}
+{synopt:{cmd:e(EB_df)}}Matrix of all ebreg output.{p_end}
 {p2colreset}{...}
