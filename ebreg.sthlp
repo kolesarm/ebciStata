@@ -1,9 +1,9 @@
 {smcl}
-{* *! version 1.0.0 Feb 2021}{...}
+{* *! version 1.0.0 Oct 2021}{...}
 {title:Title}
 
 {pstd}
-{hi:ebreg} {hline 2} Empirical Bayes Regression.
+{hi:ebreg} {hline 2} Robust Empirical Bayes Confidence Intervals
 
 
 {title:Syntax}
@@ -15,17 +15,14 @@
 {synoptset 17}{...}
 {synopthdr}
 {synoptline}
-{synopt :{opt weights(wgt_var)}}An optional vector of weights to be used in the fitting process in computing delta, mu_2 and kappa. Should be NULL or a numeric vector.{p_end}
-{synopt :{opt alpha(#)}}Determines confidence level, 1-alpha.{p_end}
-{synopt :{opt kappa(#)}}If non-NULL, use pre-specified value for the kurtosis kappa of theta-X*delta (such as Inf), instead of computing it.{p_end}
-{synopt :{opt wopt}}Compute length-optimal robust EBCIs. These are robust EBCIs centered at length-optimal shrinkage factors.{p_end}
-{synopt :{opt fs_correction()}}Finite-sample correction method used to compute mu_2 and kappa. These corrections ensure that we do not shrink the preliminary estimates Y all the way to zero.
-If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior, and if "none",
-truncate the estimates at 0 for mu_2 and 1 for kappa. Default is "PMT".{p_end}
+{synopt :{opt weights(wgt_var)}}An optional numeric vector of weights to be used in the fitting process in computing delta, mu_2 and kappa.{p_end}
+{synopt :{opt alpha(#)}}Determines confidence level, 1-alpha. Default is alpha=0.05.{p_end}
+{synopt :{opt kappa(#)}}If specified, use this value for the kurtosis kappa of theta-X*delta (such as setting it to infinity), instead of computing it.{p_end}
+{synopt :{opt wopt}}Compute length-optimal robust robust empirical Bayes confidence intervals (EBCIs). These are robust EBCIs centered at estimates with the shrinkage factor chosen to minimize the length of the resulting EBCI.{p_end}
+{synopt :{opt fs_correction()}}Finite-sample correction method used to compute mu_2 and kappa. These corrections ensure that we do not shrink the preliminary estimates Y all the way to zero. If "PMT", use posterior mean truncation, if "FPLIB" use limited information Bayesian approach with a flat prior, and if "none", truncate the estimates at 0 for mu_2 and 1 for kappa. Default is "PMT".{p_end}
 {synopt :{opt reg_options(#)}}Passes options into Stata's default regression.{p_end}
-{synopt :{opt approx}}Use a polynomial approximation to the critical value (for faster computation), rather than computing cva() exactly. 
-Assumes alpha=0.05. User-specified option for "alpha" is ignored. {p_end}
-{synopt :{opt genvar(ebci)}}Store EBCI output as variables using prefix ebci_*. Output stored are w_eb w_opt ncov_pa len_eb len_op len_pa len_us cil_eb ciu_eb 
+{synopt :{opt approx}}Use a polynomial approximation to the critical value (for faster computation), rather than computing cva() exactly. Assumes alpha=0.05. User-specified option for "alpha" is ignored. {p_end}
+{synopt :{opt genvar(ebci)}}Store {cmd: ebreg} output as variables using prefix ebci_*. Output stored are w_eb w_opt ncov_pa len_eb len_op len_pa len_us cil_eb ciu_eb
     cil_op ciu_op cil_pa ciu_pa cil_us ciu_us th_us th_eb th_op described below.{p_end}
 {synoptline}
 {p2colreset}{...}
@@ -37,16 +34,16 @@ Assumes alpha=0.05. User-specified option for "alpha" is ignored. {p_end}
 {title:Description}
 
 {pstd}
-This Stata package implements robust empirical Bayes confidence intervals from Armstrong, Kolesár, and Plagborg-Møller (2020).
+This Stata package implements robust empirical Bayes confidence intervals from Armstrong, Kolesár, and Plagborg-Møller (2021).
 
 
 {marker examples}{...}
 {title:Examples}
 
-{phang}{cmd:. use cz, replace}{p_end}
+{phang}{cmd:. use data/cz, clear}{p_end}
 {phang}{cmd:. gen wgt = 1/se25^2}{p_end}
-{phang}{cmd:. ebreg theta25 stayer25 if state == "NY", se(se25) wopt weights(wgt) fs_correction(none) }{p_end}
-{phang}{cmd:. matrix list e(w_opt)}{p_end}
+{phang}{cmd:. ebreg theta25 stayer25, se(se25) weights(wgt) alpha(0.1) genvar(ebci)}{p_end}
+{phang}{cmd:. summarize ebci_*}{p_end}
 
 
 {marker results}{...}

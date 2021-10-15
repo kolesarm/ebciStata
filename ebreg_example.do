@@ -9,10 +9,10 @@ clear all
 
 ** Load Chetty & Hendren (2018) data
 * Display results for NY
-use data/cz, replace
+use data/cz, clear
 
 * Preliminary estimates of causal effect Y_i: fixed effects estimates of
-* neighborhood effect, for children with parents at the 25th percentile 
+* neighborhood effect, for children with parents at the 25th percentile
 * of the income distribution
 list theta25 se25 if state == "NY"
 
@@ -45,9 +45,9 @@ list ebci_th_eb ebci_cil_eb ebci_ciu_eb ebci_w_eb ebci_normlngeb if state == "NY
 
 
 di "Average length of unshrunk CIs relative to robust EBCIs"
-qui sum ebci_len_us 
+qui sum ebci_len_us
 local len_us `r(mean)'
-qui sum ebci_len_eb 
+qui sum ebci_len_eb
 di "Unshrunk CI's are " `len_us'/`r(mean)' " times of robust EBCIs"
 
 
@@ -65,13 +65,13 @@ di "Parametric EBCIs for NY"
 list ebci_th_eb ebci_cil_pa ebci_ciu_pa ebci_w_eb ebci_normlngpa ebci_ncov_pa if state == "NY"
 
 di "Average length of parametric EBCIs relative to robust EBCIs"
-qui sum ebci_len_pa 
+qui sum ebci_len_pa
 local len_pa `r(mean)'
-qui sum ebci_len_eb 
+qui sum ebci_len_eb
 di "Parametric CI's are " `len_pa'/`r(mean)' " times of robust EBCIs"
 
 di "Average worst-case non-coverage probability of parametric EBCIs"
-qui sum ebci_ncov_pa 
+qui sum ebci_ncov_pa
 di "Average worst-case non-coverage probability is " `r(mean)'
 
 * The parametric EBCIs are shorter but less robust: They could potentially

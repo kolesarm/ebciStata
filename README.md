@@ -2,7 +2,7 @@
 
 This Stata package implements robust empirical Bayes confidence intervals from
 [Armstrong, Kolesár, and Plagborg-Møller
-(2020)](https://arxiv.org/abs/2004.03448). See
+(2021)](https://arxiv.org/abs/2004.03448). See
 [ebci_matlab](https://github.com/mikkelpm/ebci_matlab) for a Matlab version of
 this package, and [ebci](https://github.com/kolesarm/ebci) for an R version.
 
@@ -26,7 +26,7 @@ net install ebreg, from("https://raw.githubusercontent.com/kolesarm/ebciStata/ma
 
 Estimates and robust EBCIs for neighborhood effects, as in the empirical
 application in [Armstrong, Kolesár, and Plagborg-Møller
-(2020)](https://arxiv.org/abs/2004.03448). Shrink fixed-effect estimates of the
+(2021)](https://arxiv.org/abs/2004.03448). Shrink fixed-effect estimates of the
 neighborhood effects, for children with parents at the 25th percentile of the
 income distribution (`theta25`) toward average outcome for permanent residents
 (stayers) at the 25th percentile of the income distribution. Use precision
