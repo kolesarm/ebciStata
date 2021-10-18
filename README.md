@@ -13,8 +13,15 @@ Research Fellowship (Kolesár).
 
 ## Installation
 
-`ebciStata` is not currently available from SSC. To install directly from this
-repository, you can copy and run the following lines in Stata:
+`ebciStata` is available from
+[SSC](https://EconPapers.repec.org/RePEc:boc:bocode:s459007). To install
+from Stata, simply type
+
+```stata
+ssc install ebreg
+```
+
+Alternatively, to install the current development version, run the following lines in Stata:
 ```stata
 // Remove program if it existed previously
 capture ado uninstall ebreg
