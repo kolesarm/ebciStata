@@ -1,4 +1,4 @@
-# ebciStata
+# ebreg
 
 This Stata package implements robust empirical Bayes confidence intervals from
 [Armstrong, Kolesár, and Plagborg-Møller
@@ -13,7 +13,7 @@ Research Fellowship (Kolesár).
 
 ## Installation
 
-`ebciStata` is available from
+`ebreg` is available from
 [SSC](https://EconPapers.repec.org/RePEc:boc:bocode:s459007). To install
 from Stata, simply type
 
